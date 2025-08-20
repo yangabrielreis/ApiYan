@@ -5,16 +5,12 @@ import ListUserService from "../services/ListUserService";
 export default class UsersController {
     public async index(
         request: Request,
-        response: Response,
-        next: NextFunction
-    ): Promise<Response | void> {
-        try {
-            const listUser = new ListUserService();
-            const users = await listUser.execute();
-            return response.json(users);
-        } catch (err) {
-            next(err);
-        }
+        response: Response
+    ): Promise<Response> {
+        const listUser = new ListUserService();
+        console.log(request.user.id);
+        const users = await listUser.execute();
+        return response.json(users);
     }
 
     public async create(
@@ -31,4 +27,6 @@ export default class UsersController {
             next(err);
         }
     }
+
+    
 }
