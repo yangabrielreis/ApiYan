@@ -6,7 +6,7 @@ export default class ResetPasswordController {
         request: Request,
         response: Response,
         next: NextFunction
-    ): Promise<Response | void> {
+    ): Promise<Response | undefined> {
         try {
             const { token, password } = request.body;
             const resetPassword = new ResetPasswordService();

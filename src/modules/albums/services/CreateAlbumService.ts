@@ -1,7 +1,7 @@
 import AppError from "@shared/errors/AppErrors";
 import { getCustomRepository } from "typeorm";
-import Album from "../albums/typeorm/entities/Album";
-import AlbumsRepository from "../albums/typeorm/repositories/AlbumsRepository";
+import Album from "../typeorm/entities/Album";
+import AlbumsRepository from "../typeorm/repositories/AlbumsRepository";
 
 interface IRequest {
     title: string;

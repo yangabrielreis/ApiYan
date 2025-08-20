@@ -6,7 +6,7 @@ export default class ForgotPasswordController {
         request: Request,
         response: Response,
         next: NextFunction
-    ): Promise<Response> {
+    ): Promise<Response | undefined> {
         try {
             const { email } = request.body;
             const sendForgotPasswordEmail = new SendForgotPasswordEmailService();
@@ -14,7 +14,7 @@ export default class ForgotPasswordController {
             return response.status(204).json();
         } catch (err) {
             next(err);
-            return response.status(500).json({ error: "Internal Server Error" });
+            
         }
     }
 }

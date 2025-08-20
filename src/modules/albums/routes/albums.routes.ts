@@ -1,22 +1,37 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 import AlbumsController from '../controllers/AlbumsController';
+import isAuthenticated from '../../../shared/middlewares/isAuthenticated';
 
 const albumsRouter = Router();
 const albumsController = new AlbumsController();
 
-albumsRouter.get('/', albumsController.index);
+albumsRouter.get('/', isAuthenticated, async (req, res, next) => {
+    try {
+        await albumsController.index(req, res, next);
+    } catch (err) {
+        next(err);
+    }
+});
 
 albumsRouter.get(
     '/:id',
+    isAuthenticated,
     celebrate({
         [Segments.PARAMS]: { id: Joi.string().uuid().required() },
     }),
-    albumsController.show
+    async (req, res, next) => {
+        try {
+            await albumsController.show(req, res, next);
+        } catch (err) {
+            next(err);
+        }
+    }
 );
 
 albumsRouter.post(
     '/',
+    isAuthenticated,
     celebrate({
         [Segments.BODY]: {
             title: Joi.string().required(),
@@ -25,11 +40,18 @@ albumsRouter.post(
             stock: Joi.number().required(),
         },
     }),
-    albumsController.create
+    async (req, res, next) => {
+        try {
+            await albumsController.create(req, res, next);
+        } catch (err) {
+            next(err);
+        }
+    }
 );
 
 albumsRouter.put(
     '/:id',
+    isAuthenticated,
     celebrate({
         [Segments.PARAMS]: { id: Joi.string().uuid().required() },
         [Segments.BODY]: {
@@ -39,15 +61,28 @@ albumsRouter.put(
             stock: Joi.number().optional(),
         },
     }),
-    albumsController.update
+    async (req, res, next) => {
+        try {
+            await albumsController.update(req, res, next);
+        } catch (err) {
+            next(err);
+        }
+    }
 );
 
 albumsRouter.delete(
     '/:id',
+    isAuthenticated,
     celebrate({
         [Segments.PARAMS]: { id: Joi.string().uuid().required() },
     }),
-    albumsController.delete
+    async (req, res, next) => {
+        try {
+            await albumsController.delete(req, res, next);
+        } catch (err) {
+            next(err);
+        }
+    }
 );
 
 export default albumsRouter;

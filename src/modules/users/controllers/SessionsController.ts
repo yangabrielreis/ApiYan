@@ -6,7 +6,7 @@ export default class SessionsController {
         request: Request,
         response: Response,
         next: NextFunction
-    ): Promise<Response> {
+    ): Promise<Response | undefined>  {
         try {
             const { email, password } = request.body;
             const createSession = new CreateSessionsService();
@@ -15,6 +15,6 @@ export default class SessionsController {
         } catch (err) {
             next(err);
         }
-        return response.status(500).json({ error: "Unexpected error occurred" });
+        
     }
 }
